@@ -21,7 +21,7 @@ class SqlDataAccess
 
         public static string GetConnectionStrings()
         {
-            return ConfigurationManager.ConnectionStrings[""].ConnectionString;
+            return ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         }
 
     }

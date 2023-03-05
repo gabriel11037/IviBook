@@ -74,6 +74,7 @@ namespace ivifb
             this.loginBTN.Tag = "";
             this.loginBTN.Text = "Login";
             this.loginBTN.UseVisualStyleBackColor = false;
+            this.loginBTN.Click += new System.EventHandler(this.loginBTN_Click);
             // 
             // inregBTN
             // 
@@ -89,6 +90,7 @@ namespace ivifb
             this.inregBTN.Tag = "";
             this.inregBTN.Text = "Inregistrare";
             this.inregBTN.UseVisualStyleBackColor = false;
+            this.inregBTN.Click += new System.EventHandler(this.inregBTN_Click);
             // 
             // FreeBookHome
             // 

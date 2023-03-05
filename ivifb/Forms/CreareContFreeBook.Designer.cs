@@ -37,9 +37,9 @@ namespace ivifb.Forms
             this.prenumeCTXT = new System.Windows.Forms.Label();
             this.emailCTXT = new System.Windows.Forms.Label();
             this.passCTXT = new System.Windows.Forms.Label();
-            this.conpassCTXT = new System.Windows.Forms.TextBox();
+            this.conpassCreate = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.inregCreate = new System.Windows.Forms.Button();
+            this.InregCreate = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // emailCreate
@@ -115,15 +115,15 @@ namespace ivifb.Forms
             this.passCTXT.TabIndex = 8;
             this.passCTXT.Text = "Parola:";
             // 
-            // conpassCTXT
+            // conpassCreate
             // 
-            this.conpassCTXT.BackColor = System.Drawing.Color.Linen;
-            this.conpassCTXT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.conpassCTXT.Location = new System.Drawing.Point(340, 324);
-            this.conpassCTXT.Name = "conpassCTXT";
-            this.conpassCTXT.PasswordChar = '*';
-            this.conpassCTXT.Size = new System.Drawing.Size(244, 26);
-            this.conpassCTXT.TabIndex = 9;
+            this.conpassCreate.BackColor = System.Drawing.Color.Linen;
+            this.conpassCreate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.conpassCreate.Location = new System.Drawing.Point(340, 324);
+            this.conpassCreate.Name = "conpassCreate";
+            this.conpassCreate.PasswordChar = '*';
+            this.conpassCreate.Size = new System.Drawing.Size(244, 26);
+            this.conpassCreate.TabIndex = 9;
             // 
             // label1
             // 
@@ -134,17 +134,18 @@ namespace ivifb.Forms
             this.label1.TabIndex = 10;
             this.label1.Text = "Confirmare Parola:";
             // 
-            // inregCreate
+            // InregCreate
             // 
-            this.inregCreate.BackColor = System.Drawing.Color.Tan;
-            this.inregCreate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.inregCreate.Font = new System.Drawing.Font("Microsoft YaHei", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.inregCreate.Location = new System.Drawing.Point(291, 384);
-            this.inregCreate.Name = "inregCreate";
-            this.inregCreate.Size = new System.Drawing.Size(183, 54);
-            this.inregCreate.TabIndex = 11;
-            this.inregCreate.Text = "Inregistreaza!";
-            this.inregCreate.UseVisualStyleBackColor = false;
+            this.InregCreate.BackColor = System.Drawing.Color.Tan;
+            this.InregCreate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.InregCreate.Font = new System.Drawing.Font("Microsoft YaHei", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.InregCreate.Location = new System.Drawing.Point(291, 384);
+            this.InregCreate.Name = "InregCreate";
+            this.InregCreate.Size = new System.Drawing.Size(183, 54);
+            this.InregCreate.TabIndex = 11;
+            this.InregCreate.Text = "Inregistreaza!";
+            this.InregCreate.UseVisualStyleBackColor = false;
+            this.InregCreate.Click += new System.EventHandler(this.InregCreate_Click_1);
             // 
             // CreareContFreeBook
             // 
@@ -152,9 +153,9 @@ namespace ivifb.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Bisque;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.inregCreate);
+            this.Controls.Add(this.InregCreate);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.conpassCTXT);
+            this.Controls.Add(this.conpassCreate);
             this.Controls.Add(this.passCTXT);
             this.Controls.Add(this.emailCTXT);
             this.Controls.Add(this.prenumeCTXT);
@@ -180,8 +181,8 @@ namespace ivifb.Forms
         private System.Windows.Forms.Label prenumeCTXT;
         private System.Windows.Forms.Label emailCTXT;
         private System.Windows.Forms.Label passCTXT;
-        private System.Windows.Forms.TextBox conpassCTXT;
+        private System.Windows.Forms.TextBox conpassCreate;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button inregCreate;
+        private System.Windows.Forms.Button InregCreate;
     }
 }

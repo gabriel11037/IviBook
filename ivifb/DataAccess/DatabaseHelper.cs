@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using System.Configuration;
 using System.Globalization;
-//using FreeBook.Models;
+using FreeBook.Models;
 
 namespace FreeBook
 {
@@ -28,9 +28,147 @@ namespace FreeBook
             }
         }
 
+        public static void UserRegistration(UserModel user)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+                string cmdText = "Insert into utilizatori (nume,prenume,email,parola) values (@nume,@prenume,@email,@parola);";
+                using (SqlCommand cmd = new SqlCommand(cmdText, con))
+                {
+                    cmd.Parameters.AddWithValue("nume", user.Nume);
+                    cmd.Parameters.AddWithValue("prenume", user.Prenume);
+                    cmd.Parameters.AddWithValue("parola", user.Parola);
+                    cmd.Parameters.AddWithValue("email", user.Email);
+                }
+            }
+        }
+
+        public static UserModel IsRegistered(string email)
+        {
+            UserModel utilizator = new UserModel();
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+                string cmdText = "Select nume,prenume,email,parola from utilizatori where email=@email;";
+                using (SqlCommand cmd = new SqlCommand(cmdText, con))
+                {
+                    cmd.Parameters.AddWithValue("email", email);
+                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    {
+                        if (rdr.Read())
+                        {
+                            utilizator = new UserModel
+                            {
+                                Email = (string)rdr["email"],
+                                Nume = (string)rdr["nume"],
+                                Prenume = (string)rdr["prenume"],
+                                Parola = (string)rdr["parola"]
+                            };
+                        }
+                    }
+                }
+
+            }
+
+            return utilizator;
+        }
+
+        public static List<BookModel> GetTakenBooks(UserModel utilizator)
+        {
+            List<BookModel> imprumuturi = new List<BookModel>();
+            int indexCarte = 0;
+            using(SqlConnection con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+                string cmdText = "Select c.id_carte, c.titlu, c.autor, i.data_imprumut FROM carti c, imprumut i WHERE c.id_carte = i.id_carte AND i.email = @email";
+                using(SqlCommand cmd = new SqlCommand(cmdText, con))
+                {
+                    cmd.Parameters.AddWithValue("email", utilizator.Email);
+
+                    using(SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            indexCarte++;
+                            DateTime date = (DateTime)reader[3];
+                            BookModel imprumut = new BookModel
+                            {
+                                Index = indexCarte,
+                                IDCarte = (int)reader[0],
+                                Titlu = (string)reader[1],
+                                Autor = (string)reader[2],
+                                DataImprumut = date,
+                                DataExpirare = date.AddDays(+30),
+                                Expirat = date < DateTime.Now ? true : false
+                            };
+                            imprumuturi.Add(imprumut);
+                        }
+                    }
+                }
+                return imprumuturi;
+            }
+        }
+
+        public static int NrCartiImprumutate(UserModel user)
+        {
+            int nrCartiImprumutate = 0;
+            using(SqlConnection con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+                DateTime date = DateTime.Now.AddDays(-30);
+                string cmdText = "Select * from imprumut where email=@email and data_imprumut>@data;";
+                using(SqlCommand cmd = new SqlCommand(cmdText, con))
+                {
+                    cmd.Parameters.AddWithValue("email", user.Email);
+                    cmd.Parameters.AddWithValue("data", date);
+                    using(SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            nrCartiImprumutate++;
+                        }
+                    }
+                }
+            }
+            return nrCartiImprumutate;
+        }
+
+        public static int ImprumutaCarte(int idCarte, UserModel utilizator)
+        {
+            using(SqlConnection con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+                string cmdText1 = "Select count(*) from imprumut where id_carte = @id_carte and email=@email;";
+                using(SqlCommand cmd = new SqlCommand(cmdText1, con))
+                {
+                    cmd.Parameters.AddWithValue("id_carte", idCarte);
+                    cmd.Parameters.AddWithValue("email", utilizator.Email);
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    if (count != 0)
+                    {
+                        return -1;
+                    }
+
+                    
+                }
+                string cmdText2 = "Insert into imprumut (id_carte, email, data_imprumut) values (@id_carte,@email,@data_imprumut;";
+                using (SqlCommand cmd = new SqlCommand(cmdText2, con))
+                {
+                    DateTime date = DateTime.Now;
+                    cmd.Parameters.AddWithValue("id_carte", idCarte);
+                    cmd.Parameters.AddWithValue("email", utilizator.Email);
+                    cmd.Parameters.AddWithValue("data_imprumut", date);
+                    cmd.ExecuteNonQuery();
+                }
+                return 0;  
+            }
+        }
+
         private static void InserareCarti(SqlConnection con)
         {
-            string cmdText = "Insert into carti (titlu, autor, gen) values (@titlu, @autor, @gen);";
+            string cmdText = "Insert into carti (titlu,autor,gen) values (@titlu,@autor,@gen);";
+
             using (StreamReader reader = new StreamReader(_cartiString))
             {
                 while (reader.Peek() >= 0)
@@ -117,14 +255,14 @@ namespace FreeBook
                 ExecuteSqlQuery(con, cmdText);
                 cmdText = "Delete from utilizatori";
                 ExecuteSqlQuery(con, cmdText);
-                cmdText = "Delete from imprumuturi";
+                cmdText = "Delete from imprumut";
                 ExecuteSqlQuery(con, cmdText);
             }
         }
 
         private static void ExecuteSqlQuery(SqlConnection con, string cmdText)
         {
-            using (SqlCommand cmd = new SqlCommand(_connectionString))
+            using (SqlCommand cmd = new SqlCommand(cmdText, con))
             {
                 cmd.ExecuteNonQuery();
             }

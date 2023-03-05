@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\DataTableSource.cs" />
     <Compile Include="DataAccess\SqlDataAccess.cs" />
     <Compile Include="DataAccess\DatabaseHelper.cs" />
     <Compile Include="Forms\CreareContFreeBook.cs">
@@ -73,6 +74,18 @@
     </Compile>
     <Compile Include="Forms\CreareContFreeBook.Designer.cs">
       <DependentUpon>CreareContFreeBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AfisareCarti.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AfisareCarti.Designer.cs">
+      <DependentUpon>AfisareCarti.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MeniuFreeBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MeniuFreeBook.Designer.cs">
+      <DependentUpon>MeniuFreeBook.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\LogareFreeBook.cs">
       <SubType>Form</SubType>
@@ -86,8 +99,13 @@
     <Compile Include="Forms\FreeBookHome.Designer.cs">
       <DependentUpon>FreeBookHome.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\BookModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\AfisareCarti.resx">
+      <DependentUpon>AfisareCarti.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\CreareContFreeBook.resx">
       <DependentUpon>CreareContFreeBook.cs</DependentUpon>
     </EmbeddedResource>
@@ -96,6 +114,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LogareFreeBook.resx">
       <DependentUpon>LogareFreeBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MeniuFreeBook.resx">
+      <DependentUpon>MeniuFreeBook.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -154,13 +175,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>Database1.mdf</DependentUpon>
     </Content>
-    <Content Include="Database2.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Database2_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>Database2.mdf</DependentUpon>
-    </Content>
     <Content Include="Resurse\carti.txt" />
     <Content Include="Resurse\imprumuturi.txt" />
     <Content Include="Resurse\sigla_Biblioteca_3.jpg" />
@@ -184,8 +198,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
